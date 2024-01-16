@@ -1,7 +1,7 @@
 import pygame
 from sys import exit
 import os
-from classes import player
+from classes import samurai
 
 os.system('cls')
 
@@ -19,14 +19,18 @@ surface_cloud = pygame.image.load('assets/background/clouds.png').convert_alpha(
 surface_house = pygame.image.load('assets/background/houses.png').convert_alpha()
 surface_road = pygame.image.load('assets/background/road.png').convert_alpha()
 
+# Player
+samurai_player_list = pygame.sprite.GroupSingle()
+samurai_player = samurai.samurai()
+samurai_player_list.add(samurai_player)
+
+
 # Game Loop
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()  
-    
-    
 
     # Draw background
     screen.blit(surface_cloud, (0, 0))
@@ -36,10 +40,9 @@ while True:
     # Draw title
     screen.blit(surface_title, (920, 0))
 
-    # Player
-    samurai = pygame.sprite.GroupSingle()
-    samurai.add(player.Player())
-    samurai.draw(screen)
+    samurai_player_list.draw(screen)    
+
+    samurai_player.attack()
 
     pygame.display.update()
     clock.tick(60)
